@@ -1,13 +1,13 @@
 class Solution {
-    Integer dp[][]=new Integer[301][301];
+    Integer dp[][];
     public int maxCoins(int[] nums) {
         int max=0;
         int n=nums.length;
+        dp=new Integer[n][n];
         for(int i=0;i<n;i++)
         {
           int left_max=help(0,i-1,1,nums[i],nums);
             int right_max=help(i+1,n-1,nums[i],1,nums);
-          // System.out.println(left_max+" "+right_max);
             max=Math.max(max,nums[i]+left_max+right_max);
         }
         return max;
