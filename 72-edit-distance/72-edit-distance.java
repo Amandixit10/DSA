@@ -1,35 +1,40 @@
 class Solution {
-    Integer dp[][]=new Integer[501][501];
-    public int minDistance(String s1, String s2)
-    {
-        return help(s1,s2,0,0);
-    }
-    public int help(String s1, String s2,int i,int j) {
-        int ans=0;
-        int n=s1.length();
-        int m=s2.length();
-        if(s1.equals(s2))
-        {return 0;}
-        if(n==0||m==0)
+    public int minDistance(String word1, String word2) {
+        int n=word1.length();
+        int  m=word2.length();
+        if(Math.min(n,m)==0)
+        {return Math.max(n,m);}
+        int dp[][]=new int[n+1][m+1];
+        for(int i=0;i<=n;i++)
         {
-            return Math.max(n,m);
+            dp[i][m]=n-i;
         }
-        if(dp[i][j]!=null)
-        {return dp[i][j];}
-        if(s1.charAt(0)!=s2.charAt(0))
+        for(int j=0;j<=m;j++)
         {
-            int a=1+help(s1.substring(1),s2,i+1,j); // delete
-            int b=1+help(s1.substring(1),s2.substring(1),i+1,j+1);  // replace
-            int c=1+help(s1,s2.substring(1),i,j+1);  // insert
-            ans=Math.min(a,b);
-            ans=Math.min(ans,c);
-            //System.out.println(s1+" "+s2+" "+a+" "+b+" "+c);
+            dp[n][j]=m-j;
         }
-        else{
-           ans=help(s1.substring(1),s2.substring(1),i+1,j+1); 
-          //  System.out.println(s1+" "+s2+" "+ans);
-        }
-        dp[i][j]=ans;
-        return ans;
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int j=m-1;j>=0;j--)
+            {
+                char a=word1.charAt(i);
+                char b=word2.charAt(j);
+                    if(a==b)
+                    {dp[i][j]=dp[i+1][j+1];}
+                    else{
+                        dp[i][j]=Math.min(1+dp[i+1][j],1+dp[i+1][j+1]);
+                        dp[i][j]=Math.min(dp[i][j],1+dp[i][j+1]);
+                    }
+                }
+            }
+      /*for(int i[]:dp)
+        {
+            for(int j:i)
+            {
+                System.out.print(j+" ");
+            }
+            System.out.println();
+        }*/
+        return dp[0][0];
     }
 }
