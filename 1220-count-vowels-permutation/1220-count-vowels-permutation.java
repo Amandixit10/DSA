@@ -1,56 +1,56 @@
 class Solution {
     int mod=1000000007;
-     HashSet<Character> set;
+     HashSet<Integer> set;
     Integer dp[][];
     public int countVowelPermutation(int n) {
-        dp=new Integer[n+1][26];
+        dp=new Integer[n+1][5];
        set=new HashSet<>();
-        set.add('a');
-        set.add('e');
-        set.add('i');
-        set.add('o');
-        set.add('u');
+        set.add(0);
+        set.add(1);
+        set.add(2);
+        set.add(3);
+        set.add(4);
         int count=0;
-        for(char i:set)
+        for(int i:set)
         {
             count=(count+help(n-1,i))%mod;
         }
         return count;
     }
-    int help(int n,char ch)
+    int help(int n,int x)
     {
         if(n<=0)
         {return 1;}
-        if(dp[n][ch-'a']!=null)
-        {return dp[n][ch-'a'];}
+        if(dp[n][x]!=null)
+        {return dp[n][x];}
         int count=0;
-        if(ch=='a')
+        if(x==0)
         {
-          count=(count+help(n-1,'e'))%mod;  
+          count=(count+help(n-1,1))%mod;  
         }
-        else if(ch=='e')
+        else if(x==1)
         {
-            count=(count+help(n-1,'a'))%mod; 
-            count=(count+help(n-1,'i'))%mod; 
+            count=(count+help(n-1,0))%mod; 
+            count=(count+help(n-1,2))%mod; 
         }
-        else if(ch=='i')
+        else if(x==2)
         {
-          for(char i:set)
+          for(int i:set)
           {
-              if(i=='i')
+              if(i==2)
               {continue;}
               count=(count+help(n-1,i))%mod; 
           }
         }
-        else if(ch=='o')
+        else if(x==3)
         {
-              count=(count+help(n-1,'i'))%mod;   
-              count=(count+help(n-1,'u'))%mod;
+              count=(count+help(n-1,2))%mod;   
+              count=(count+help(n-1,4))%mod;
         }
         else{
-              count=(count+help(n-1,'a'))%mod; 
+              count=(count+help(n-1,0))%mod; 
           }
-        dp[n][ch-'a']=count;
+        dp[n][x]=count;
         return count;
     }
 }
