@@ -42,7 +42,7 @@ class Solution {
               count=(count+help(n-1,i))%mod; 
           }
         }
-        else if(x==3)
+        else       if(x==3)
         {
               count=(count+help(n-1,2))%mod;   
               count=(count+help(n-1,4))%mod;
