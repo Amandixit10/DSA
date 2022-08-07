@@ -1,56 +1,49 @@
 class Solution {
-    int mod=1000000007;
-     HashSet<Integer> set;
-    Integer dp[][];
     public int countVowelPermutation(int n) {
-        dp=new Integer[n+1][5];
-       set=new HashSet<>();
-        set.add(0);
-        set.add(1);
-        set.add(2);
-        set.add(3);
-        set.add(4);
-        int count=0;
-        for(int i:set)
+        int mod=1000000007;
+        int dp[][]=new int[n+1][5];
+        for(int i=0;i<5;i++)
         {
-            count=(count+help(n-1,i))%mod;
+            dp[n][i]=1;
         }
-        return count;
+        for(int i=n-1;i>0;i--)
+        {
+            for(int j=0;j<5;j++)
+            {
+                if(j==0)
+                {
+                    dp[i][j]=dp[i+1][1];
+                }
+                else if(j==1)
+                {
+                    dp[i][j]=(((dp[i][j]+dp[i+1][0])%mod)+dp[i+1][2])%mod;
+                }
+                else if(j==2)
+                {
+                    dp[i][j]=(((dp[i+1][0]+dp[i+1][1])%mod)+((dp[i+1][3]+dp[i+1][4])%mod))%mod;
+                }
+                else if(j==3)
+                {
+                    dp[i][j]=(dp[i+1][2]+dp[i+1][4])%mod;
+                }
+                else{
+                    dp[i][j]=dp[i+1][0];
+                }
+            }
+        }
+            int count=0;
+            for(int i=0;i<5;i++)
+            {
+                count=(count+dp[1][i])%mod;
+            }
+        /*for(int i[]:dp)
+        {
+            for(int j:i)
+            {
+                System.out.print(j+" ");
+            }
+            System.out.println();
+        }*/
+            return count;
+        }
     }
-    int help(int n,int x)
-    {
-        if(n<=0)
-        {return 1;}
-        if(dp[n][x]!=null)
-        {return dp[n][x];}
-        int count=0;
-        if(x==0)
-        {
-          count=(count+help(n-1,1))%mod;  
-        }
-        else if(x==1)
-        {
-            count=(count+help(n-1,0))%mod; 
-            count=(count+help(n-1,2))%mod; 
-        }
-        else if(x==2)
-        {
-          for(int i:set)
-          {
-              if(i==2)
-              {continue;}
-              count=(count+help(n-1,i))%mod; 
-          }
-        }
-        else       if(x==3)
-        {
-              count=(count+help(n-1,2))%mod;   
-              count=(count+help(n-1,4))%mod;
-        }
-        else{
-              count=(count+help(n-1,0))%mod; 
-          }
-        dp[n][x]=count;
-        return count;
-    }
-}
