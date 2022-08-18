@@ -5,20 +5,34 @@ class Solution {
         {
             set.add(i);
         }
-        helper(0,set,s,"",s.length());
-        return ans;
+        return helper(0,set,s,s.length());
     }
+    HashMap<Integer,List<String>> map=new HashMap<>();
     List<String> ans=new ArrayList<>();
-    void helper(int idx,HashSet<String> set,String s,String asf,int n)
+     List<String> helper(int idx,HashSet<String> set,String s,int n)
     {
+         List<String> list=new ArrayList<>();
         if(idx>=n)
-        {ans.add(asf);}
+        {list.add("");
+        return list;}
+         if(map.containsKey(idx))
+         {return map.get(idx);}
         for(int i=idx+1;i<=n;i++)
         {
             if(set.contains(s.substring(idx,i)))
             {
-                helper(i,set,s,asf+(idx==0?"":" ")+s.substring(idx,i),n);
+                List<String> x=helper(i,set,s,n);
+                for(String j:x)
+                {
+                if(j=="")
+                {list.add(s.substring(idx,i)+j);}
+                    else{
+                        list.add(s.substring(idx,i)+" "+j);
+                    }
+                }
             }
         }
+         map.put(idx,list);
+         return list;
     }
 }
