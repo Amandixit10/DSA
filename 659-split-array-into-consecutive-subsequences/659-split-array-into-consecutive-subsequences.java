@@ -1,40 +1,21 @@
 class Solution {
     public boolean isPossible(int[] nums) {
-        int n=nums.length;
-        if(n<3)
-        {return false;}
-        HashMap<Integer,ArrayList<Integer>> map=new HashMap<>();
-        int count=0;
-    for(int i:nums)
-    {
-            ArrayList<Integer> list=new ArrayList<>();
-        if(map.containsKey(i))
-        {list=map.get(i);}
-            list.add(0,1);
-         map.put(i,list);
-         if(map.containsKey(i-1))
-        {   
-        list=map.get(i-1);
-        int val=list.remove(0);
-            if(list.size()==0)
-            {map.remove(i-1);}
-            else{
-                map.put(i-1,list);
-            }
-        list=map.get(i);
-             list.remove(0);
-            list.add(val+1);
-            map.put(i,list);
+    Map<Integer, Integer> freq = new HashMap<>(), appendfreq = new HashMap<>();
+    for (int i : nums) freq.put(i, freq.getOrDefault(i,0) + 1);
+    for (int i : nums) {
+        if (freq.get(i) == 0) continue;
+        else if (appendfreq.getOrDefault(i,0) > 0) {
+            appendfreq.put(i, appendfreq.get(i) - 1);
+            appendfreq.put(i+1, appendfreq.getOrDefault(i+1,0) + 1);
+        }   
+        else if (freq.getOrDefault(i+1,0) > 0 && freq.getOrDefault(i+2,0) > 0) {
+            freq.put(i+1, freq.get(i+1) - 1);
+            freq.put(i+2, freq.get(i+2) - 1);
+            appendfreq.put(i+3, appendfreq.getOrDefault(i+3,0) + 1);
         }
+        else return false;
+        freq.put(i, freq.get(i) - 1);
     }
-for( int  i:map.keySet())
-{
-    for(int j:map.get(i))
-    {
-        if(j>=3)
-        {count+=j;}
-    }
+    return true;
 }
-        return count==n;
-    }
 }
