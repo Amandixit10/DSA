@@ -6,7 +6,7 @@ int dig[]=new int[10];
 int val=num.charAt(i)-'0';
         dig[val]++;
         }
-        String ans="";
+        StringBuilder ans=new StringBuilder();
         int max=-1;
 for(int i=9;i>=0;i--)
 {
@@ -18,25 +18,22 @@ if(dig[i]%2!=0)
     {
     for(int j=0;j<dig[i]/2;j++)
     {
-        ans+=i+"";
+        ans.append(i+"");
     }
     }
 }
-        String app="";
-        for(int i=ans.length()-1;i>=0;i--)
-        {
-            app+=ans.charAt(i)+"";
-        }
+        String pre=ans.toString();
+        String app=ans.reverse().toString();
         if(max!=-1)
-        {ans+=max+"";}
-        ans+=app;
-        if(ans.charAt(0)=='0')
+        {pre+=max+"";}
+        pre+=app;
+        if(pre.charAt(0)=='0')
         {
             if(max==-1)
             {
             return 0+"";}
             return max+"";
         }
-        return ans;
+        return pre;
     }
 }
