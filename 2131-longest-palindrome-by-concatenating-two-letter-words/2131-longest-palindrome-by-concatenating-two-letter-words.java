@@ -1,41 +1,24 @@
 class Solution {
+
     public int longestPalindrome(String[] words) {
-        HashMap<String,Integer> map=new HashMap<>();
-        for(String i:words)
-        {
-            map.put(i,map.getOrDefault(i,0)+1);
+        HashMap<String, Integer> map = new HashMap<>();
+        int max = 0;
+        for (int i = 0; i < words.length; i++) {
+            String rev = words[i].charAt(1) + "" + words[i].charAt(0);
+            if (map.containsKey(rev)) {
+                max += 4;
+                map.put(rev, map.get(rev) - 1); // decrease its count as we won't be taking it again
+                if (map.get(rev) == 0) map.remove(rev);
+                continue; // as we also won't be taking current string again
+            }
+            map.put(words[i], map.getOrDefault(words[i], 0) + 1);
         }
-        int count=0;
-        boolean mid=false;
-        for(String i:map.keySet())
-        {
-            if(map.get(i)>0)
-            {
-                String check=new StringBuilder(i).reverse().toString();
-                if(map.containsKey(check))
-                {
-                    if(check.equals(i))
-                    {
-                        if(map.get(check)%2==0)
-                        {count+=map.get(check);}
-                        else{
-                            if(mid)
-                            {
-                                count+=map.get(check)-1;
-                            }
-                            else{
-                                count+=map.get(check);
-                                mid=true;
-                            }
-                        }
-                    }
-                    else{
-                      count+=Math.min(map.get(i),map.get(check))*2; 
-                        map.put(check,-1);
-                    }
-                }
+        for (String k : map.keySet()) {
+            if (map.get(k) == 1 && (k.charAt(1) + "" + k.charAt(0)).equals(k)) {
+                max += 2;
+                break;
             }
         }
-        return count*2;
+        return max;
     }
 }
