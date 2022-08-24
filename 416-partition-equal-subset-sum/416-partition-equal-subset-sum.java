@@ -8,22 +8,23 @@ class Solution {
         }
         if(sum%2!=0)
         {return false;}
+        sum/=2;
          dp=new Boolean[nums.length][sum+1];
-        boolean take=helper(1,nums[0],nums,sum);
-        boolean leave=helper(1,0,nums,sum);
+        boolean take=helper(1,nums,sum);
+        boolean leave=helper(1,nums,sum);
         return take|leave;
     }
-    boolean helper(int idx,int curr,int nums[],int sum)
+    boolean helper(int idx,int nums[],int sum)
     {
-        if(idx>=nums.length||(curr==sum/2))
+        if(idx>=nums.length||sum<=0)
         {
-            return curr==sum/2;
+            return sum==0;
         }
-        if(dp[idx][curr]!=null)
-        {return dp[idx][curr];}
-        boolean take=helper(idx+1,curr+nums[idx],nums,sum);
-        boolean leave=helper(idx+1,curr,nums,sum);
-        dp[idx][curr]=take|leave;
+        if(dp[idx][sum]!=null)
+        {return dp[idx][sum];}
+        boolean take=helper(idx+1,nums,sum-nums[idx]);
+        boolean leave=helper(idx+1,nums,sum);
+        dp[idx][sum]=take|leave;
         return take|leave;
     }
 }
