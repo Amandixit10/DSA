@@ -1,7 +1,6 @@
 class Solution {
     Boolean dp[][];
     public boolean canPartition(int[] nums) {
-    dp=new Boolean[nums.length][20001];
         int sum=0;
         for(int i:nums)
         {
@@ -9,6 +8,7 @@ class Solution {
         }
         if(sum%2!=0)
         {return false;}
+         dp=new Boolean[nums.length][sum+1];
         boolean take=helper(1,nums[0],nums,sum);
         boolean leave=helper(1,0,nums,sum);
         return take|leave;
