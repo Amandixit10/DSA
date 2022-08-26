@@ -1,15 +1,11 @@
 class Solution {
     public List<Integer> largestDivisibleSubset(int[] nums) {
         int n=nums.length;
-ArrayList<Integer> dp[]=new ArrayList[n];
-        for(int i=0;i<n;i++)
-        {
-            dp[i]=new ArrayList<>();
-        }
-       // System.out.println(dp.length);
+int dp[]=new int[n];
+        int nextPointer[]=new int[n];
         Arrays.sort(nums);
-        dp[n-1].add(nums[n-1]);
-       // System.out.println(dp[n-1].get(0));
+        dp[n-1]=1;
+        nextPointer[n-1]=n-1;
         for(int i=n-2;i>=0;i--)
         {
                 int max=0;
@@ -18,30 +14,33 @@ ArrayList<Integer> dp[]=new ArrayList[n];
             {
                 if((nums[j]%nums[i])==0)
                 {
-                 if(dp[j].size()>max)  
+                 if(dp[j]>max)  
                  {
-                     max=dp[j].size();
+                     max=dp[j];
                  idx=j;
                  }
                 }
             }
-        
-                for(int j=0;j<dp[idx].size();j++)
-                {
-                    dp[i].add(dp[idx].get(j));
-                }
-            dp[i].add(nums[i]);
+        dp[i]=dp[idx]+1;
+            nextPointer[i]=idx;
             }
         int max=0;
         int idx=0;
         for(int i=0;i<n;i++)
         {
-            if(dp[i].size()>max)
+            if(dp[i]>max)
             {
-                max=dp[i].size();
+                max=dp[i];
                 idx=i;
             }
         }
-        return dp[idx];
+        ArrayList<Integer> list=new ArrayList<>();
+        while(nextPointer[idx]!=idx)
+        {
+            list.add(nums[idx]);
+            idx=nextPointer[idx];
+        }
+        list.add(nums[idx]);
+        return list;
     }
 }
