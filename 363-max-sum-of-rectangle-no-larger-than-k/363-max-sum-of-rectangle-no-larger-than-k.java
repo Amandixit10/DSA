@@ -8,7 +8,6 @@ class Solution {
             int ar[]=new int[m];
             for(int j=i;j<n;j++)
             {
-
                     for(int k=0;k<m;k++)
                     {
                         ar[k]+=matrix[j][k];
