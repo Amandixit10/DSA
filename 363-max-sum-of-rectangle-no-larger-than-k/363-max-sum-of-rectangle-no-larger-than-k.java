@@ -1,60 +1,44 @@
 class Solution {
-    public int maxSumSubmatrix(int[][] matrix, int target) {
-        int n=matrix.length;
-        int m=matrix[0].length;
-        int pre[][]=new int[n][m];
-        for(int j=0;j<m;j++)
-        {
-            for(int i=0;i<n;i++)
-            {
-                if(i==0)
-                {
-                    pre[i][j]=matrix[i][j];
-                }
-                else{
-                    pre[i][j]=pre[i-1][j]+matrix[i][j];
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        int m = matrix.length, n = matrix[0].length;
+        
+        int max = Integer.MIN_VALUE;
+        // step 1
+        for (int i = 0; i < m; i++) {
+            int[] add = new int[n];
+            for (int j = i; j < m; j++) {
+                sum(add, matrix[j]);
+                
+                TreeSet<Integer> treeset = new TreeSet<>();
+                max = Math.max(max, helper(add, treeset, k));
+                if (max == k) {
+                    return max;
                 }
             }
         }
-        int max=Integer.MIN_VALUE;
-        for(int i=0;i<n;i++)
-        {
-            for(int j=i;j<n;j++)
-            {
-                int ar[]=new int[m];
-                if(i==0)
-                {
-                 max=Math.max(max,helper(pre[j],target));   
-                }
-                else{
-                    for(int k=0;k<m;k++)
-                    {
-                        ar[k]=pre[j][k]-pre[i-1][k];
-                    }
-                    max=Math.max(max,helper(ar,target));
-                }
-            }
-            
-        }
-        return max;
+        return max == Integer.MIN_VALUE ? -1 : max;
     }
-    int helper(int ar[],int k)
-    {
-        TreeSet<Integer> set=new TreeSet<>();
-        int sum=0;
-        int max=Integer.MIN_VALUE;
-        set.add(0);
-        for(int i=0;i<ar.length;i++)
-        {
-            
-            sum+=ar[i];
-            int req=sum-k;
-                if(set.ceiling(req)!=null)
-                {
-                    max=Math.max(max,sum-set.ceiling(req));
+    private int helper(int[] add, TreeSet<Integer> treeset, int k) {
+        treeset.add(0);
+        int prefixSum = 0;
+        int curMax = Integer.MIN_VALUE;
+        for (int ele : add) {
+            prefixSum += ele;
+            Integer ceil = treeset.ceiling(prefixSum - k);
+            if (ceil != null) {
+                if (prefixSum - ceil == k) {
+                    return k;
+                } else {
+                    curMax = Math.max(curMax, prefixSum - ceil);
                 }
-            set.add(sum);
+            }
+            treeset.add(prefixSum);
         }
-        return max;
+        return curMax;
+    }
+    private void sum(int[] add, int[] cols) {
+        for (int i = 0; i < cols.length; i++){
+            add[i] += cols[i];
+        }
     }
 }
