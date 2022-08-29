@@ -8,42 +8,49 @@ class Solution {
             graph[i]=new ArrayList<>();
         }
         int m=prerequisites.length;
-        int indegree[]=new int[n];
         for(int i=0;i<m;i++)
         {
             int u=prerequisites[i][0];
             int v=prerequisites[i][1];
             graph[v].add(u);
-            indegree[u]++;
         }
-        ArrayDeque<Integer> q=new ArrayDeque<>();
+        boolean visited[]=new boolean[n];
         for(int i=0;i<n;i++)
         {
-            if(indegree[i]==0)
+            if(!visited[i])
             {
-                q.add(i);
+       cycle(i,visited);
             }
         }
-        int ans[]= new int[n];
+        if(flag)
+        {return new int[0];}
+        int ans[]=new int[n];
         int idx=0;
-        while(q.size()>0)
+        while(st.size()>0)
         {
-         int num=q.remove();
-            ans[idx]=num;
+            ans[idx]=st.pop();
             idx++;
-            for(int i:graph[num])
-            {
-                indegree[i]--;
-                if(indegree[i]==0)
-                {
-                    q.add(i);
-                }
-            }
-        }
-        if(idx!=n)
-        {
-            return new int[0];
         }
         return ans;
         }
+    Stack<Integer> st=new Stack<>();
+    HashSet<Integer> set=new HashSet<>();
+    boolean flag=false;
+  void cycle(int idx,boolean visited[])
+    {
+     
+        if(visited[idx]||flag)
+        {
+            if(!set.contains(idx))
+            {flag=true;}
+            return;
+        }
+      visited[idx]=true;
+      for(int i:graph[idx])
+      {
+          cycle(i,visited);          
+      }
+      st.add(idx);
+      set.add(idx);
+    }
 }
