@@ -3,56 +3,47 @@ class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         int n=numCourses;
         graph=new ArrayList[n];
-        int indegree[]=new int[n];
         for(int i=0;i<n;i++)
         {
             graph[i]=new ArrayList<>();
         }
-        for(int i=0;i<prerequisites.length;i++)
+        int m=prerequisites.length;
+        int indegree[]=new int[n];
+        for(int i=0;i<m;i++)
         {
             int u=prerequisites[i][0];
             int v=prerequisites[i][1];
-                graph[u].add(v);
-                indegree[v]=Math.max(indegree[v],0)+1;
-            }
-        
+            graph[v].add(u);
+            indegree[u]++;
+        }
         ArrayDeque<Integer> q=new ArrayDeque<>();
         for(int i=0;i<n;i++)
         {
             if(indegree[i]==0)
-            {q.add(i);}
-        //System.out.println(indegree[i]);
+            {
+                q.add(i);
+            }
         }
-        int ans[]=new int[n];
-        boolean visited[]=new boolean[n];
-        int cnt=0;
+        int ans[]= new int[n];
+        int idx=0;
         while(q.size()>0)
         {
-            int num=q.remove();
-         //  System.out.println(num);
-            if(visited[num])
-            {continue;}
-            ans[cnt]=num;
-            cnt++;
-            visited[num]=true;
+         int num=q.remove();
+            ans[idx]=num;
+            idx++;
             for(int i:graph[num])
             {
-                indegree[i]-=1;
+                indegree[i]--;
                 if(indegree[i]==0)
                 {
                     q.add(i);
                 }
             }
         }
-        if(cnt!=n)
+        if(idx!=n)
         {
             return new int[0];
         }
-        int x[]=new int[n];
-        for(int i=n-1;i>=0;i--)
-        {
-            x[i]=ans[n-i-1];
+        return ans;
         }
-        return x;
-    }
 }
