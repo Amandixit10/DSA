@@ -3,21 +3,18 @@ class Solution {
         int n=matrix.length;
         for(int i=0;i<n;i++)
         {
-            int row=i;
-            int col=i;
-            int a[]=new int[n];
-            int b[]=new int[n];
+int a[]=new int[n+1];
+            int b[]=new int[n+1];
             for(int j=0;j<n;j++)
             {
-             a[j]=matrix[row][j];
-             b[j]=matrix[j][col];
+                a[matrix[i][j]]++;
+                b[matrix[j][i]]++;
             }
-            Arrays.sort(a);
-            Arrays.sort(b);
-            for(int j=0;j<n;j++)
+            for(int j=1;j<=n;j++)
             {
-                if(a[j]!=j+1||b[j]!=j+1)
-            {return false;}}
+if(a[j]!=1||b[j]!=1)
+{return false;}
+        }
         }
         return true;
     }
