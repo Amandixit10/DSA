@@ -1,18 +1,15 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        int curr=0;
-        int n=nums.length;
+        TreeSet<Integer> set=new TreeSet<>();
+        set.add(0);
+        int sum=0;
         int max=Integer.MIN_VALUE;
+        int n=nums.length;
         for(int i=0;i<n;i++)
         {
-            if(nums[i]+curr<nums[i])
-            {
-                curr=nums[i];
-            }
-            else{
-                curr+=nums[i];
-            }
-            max=Math.max(max,curr);
+            sum+=nums[i];
+         max=Math.max(max,sum-set.first());
+            set.add(sum);
         }
         return max;
     }
