@@ -14,23 +14,17 @@
  * }
  */
 class Solution {
-    PriorityQueue<Integer> q=new PriorityQueue<>((a,b)->(b-a));
     public int goodNodes(TreeNode root) {
-        return help(root);
+        return help(root,root.val);
     }
-    int help(TreeNode root)
+    int help(TreeNode root,int max)
     {
         if(root==null)
         {return 0;}
-        int ans=0;
-    if(q.size()==0||q.peek()<=root.val)
-        {
-            ans+=1;
-        }
-        q.add(root.val);
-        ans+=help(root.left);
-        ans+=help(root.right);
-        q.remove(root.val);
+        int ans=(root.val>=max)?1:0;
+        max=Math.max(max,root.val);
+        ans+=help(root.left,max);
+        ans+=help(root.right,max);
         return ans;
     }
 }
