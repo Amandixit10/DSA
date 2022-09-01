@@ -1,6 +1,5 @@
 class Solution {
     ArrayList<Integer> tree[];
-    TreeMap<Long,Integer> map=new TreeMap<>();
     public int countHighestScoreNodes(int[] parent) {
         int n=parent.length;
         tree=new ArrayList[n];
@@ -17,6 +16,8 @@ class Solution {
         int size[]=new int[n];
         long total[]=new long[n];
         int sizeRoot=findSize(0,-1,size,total);
+        long max=0;
+        int count=0;
         for(int i=0;i<n;i++)
         {
             long val=total[i];
@@ -25,9 +26,15 @@ class Solution {
             {
               val*=size[0]-size[i];  
             }
-            map.put(val,map.getOrDefault(val,0)+1);
+            if(val==max)
+            {count++;}
+            else if(val>max)
+            {
+                max=val;
+                count=1;
+            }
         }
-        return map.get(map.lastKey());
+        return count;
     }
     int findSize(int src,int par,int size[],long total[])
     {
