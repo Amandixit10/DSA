@@ -15,14 +15,12 @@ class Solution {
             tree[parent[i]].add(i);
         }
         int size[]=new int[n];
-        int sizeRoot=findSize(0,-1,size);
+        long total[]=new long[n];
+        int sizeRoot=findSize(0,-1,size,total);
         for(int i=0;i<n;i++)
         {
-            long val=1L;
-        for(int j:tree[i])
-        {
-         val*=size[j];   
-        }
+            long val=total[i];
+        //    System.out.println(i+" "+val);
             if(i!=0)
             {
               val*=size[0]-size[i];  
@@ -31,14 +29,18 @@ class Solution {
         }
         return map.get(map.lastKey());
     }
-    int findSize(int src,int par,int size[])
+    int findSize(int src,int par,int size[],long total[])
     {
         int val=0;
+        long tot=1;
         for(int i:tree[src])
         {
-            val+=findSize(i,src,size);
+            int x=findSize(i,src,size,total);
+            tot*=x;
+            val+=x;
         }
         size[src]=val+1;
+        total[src]=tot;
         return val+1;
     }
 }
