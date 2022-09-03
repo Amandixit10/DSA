@@ -1,34 +1,45 @@
-
-// time complexity 9*
-
 class Solution {
-    TreeSet<Integer> set=new TreeSet<>();
     public int[] numsSameConsecDiff(int n, int k) {
-        for(int i=1;i<=9;i++)
+        Queue<String> q=new ArrayDeque<>();
+        for(int i=1;i<10;i++)
         {
-            helper(n-1,k,i+"",i+k);
-            helper(n-1,k,i+"",i-k);
+            q.add(i+"");
         }
-        int ans[]=new int[set.size()];
-        int idx=0;
-        for(int i:set)
+        int level=2;
+        while(level<=n)
         {
-         ans[idx]=i;
-            idx++;
+            int size=q.size();
+            while(size-->0)
+            {
+                String num=q.remove();
+                int len=num.length();
+                int a=num.charAt(0)-'0';
+                int b=num.charAt(len-1)-'0';
+                if(b+k<=9)
+                {q.add(num+((b+k)+""));}
+                if(b-k>=0)
+                {q.add(num+((b-k)+""));}
+                if(a+k<=9)
+                {q.add(((a+k)+"")+num);}
+            }
+            level+=1;
+        }
+        HashSet<String> set=new HashSet<>();
+        while(q.size()>0)
+        {
+            String x=q.remove();
+            if(x.charAt(0)!='0')
+            {
+            set.add(x);
+            }
+        }
+        int ans[]= new int[set.size()];
+        int idx=0;
+        for(String i:set)
+        {
+            ans[idx]=Integer.parseInt(i);
+        idx++;
         }
         return ans;
-    }
-    void helper(int n,int k,String asf,int curr)
-    {
-        if(n<=0||curr>9||curr<0)
-        {
-            if(n==0)
-            {
-        set.add(Integer.parseInt(asf));
-            }
-            return;
-        }
-        helper(n-1,k,asf+curr+"",curr+k);
-        helper(n-1,k,asf+curr+"",curr-k);
     }
 }
