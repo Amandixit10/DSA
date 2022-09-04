@@ -1,6 +1,6 @@
 class Solution {
     int mod=(int)1e9+7;
-    Integer dp[][]=new Integer[4000][1001];
+    Integer dp[][]=new Integer[3002][1001];
     public int numberOfWays(int startPos, int endPos, int k) {
         return (helper(startPos+1,endPos,k-1)+helper(startPos-1,endPos,k-1))%mod;
     }
