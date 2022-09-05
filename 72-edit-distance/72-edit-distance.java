@@ -1,40 +1,20 @@
 class Solution {
+    Integer dp[][]=new Integer[501][501];
     public int minDistance(String word1, String word2) {
         int n=word1.length();
-        int  m=word2.length();
-        if(Math.min(n,m)==0)
-        {return Math.max(n,m);}
-        int dp[][]=new int[n+1][m+1];
-        for(int i=0;i<=n;i++)
+        int m=word2.length();
+        if(n==0||m==0)
         {
-            dp[i][m]=n-i;
+            return Math.max(n,m);
         }
-        for(int j=0;j<=m;j++)
-        {
-            dp[n][j]=m-j;
-        }
-        for(int i=n-1;i>=0;i--)
-        {
-            for(int j=m-1;j>=0;j--)
-            {
-                char a=word1.charAt(i);
-                char b=word2.charAt(j);
-                    if(a==b)
-                    {dp[i][j]=dp[i+1][j+1];}
-                    else{
-                        dp[i][j]=Math.min(1+dp[i+1][j],1+dp[i+1][j+1]);
-                        dp[i][j]=Math.min(dp[i][j],1+dp[i][j+1]);
-                    }
-                }
-            }
-      /*for(int i[]:dp)
-        {
-            for(int j:i)
-            {
-                System.out.print(j+" ");
-            }
-            System.out.println();
-        }*/
-        return dp[0][0];
+        if(dp[n][m]!=null)
+        {return dp[n][m];}
+        if(word1.charAt(0)==word2.charAt(0))
+        {return minDistance(word1.substring(1),word2.substring(1));}
+        int add=1+minDistance(word1,word2.substring(1));
+        int del=1+minDistance(word1.substring(1),word2);
+        int rep=1+minDistance(word1.substring(1),word2.substring(1));
+        dp[n][m]=Math.min(add,Math.min(rep,del));
+        return dp[n][m];
     }
 }
