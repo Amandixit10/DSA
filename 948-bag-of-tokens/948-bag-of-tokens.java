@@ -33,20 +33,5 @@ class Solution {
         }
         return max;
     }
-    int helper(int pre[],int sum,int x,int y)
-    {
-        int total=0;
-        int max=0;
-   for(int i=x,j=x;j<=y;j++)
-   {
-       total=pre[j]-pre[i-1];
-      while(total>sum)
-       {
-          i++;
-           total=pre[j]-pre[i-1];
-       }
-       max=Math.max(max,j-i+1);
-   }
-        return max;
-    }
+
 }
