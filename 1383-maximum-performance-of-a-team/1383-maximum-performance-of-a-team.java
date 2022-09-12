@@ -28,7 +28,6 @@ class Solution {
             }
             long prod=sum*(long)ar[i][1];
             max=Math.max(max,prod);
-          //  System.out.println(max+" "+sum+" "+pq.peek());
         }
         return (int)(max%mod);
     }
