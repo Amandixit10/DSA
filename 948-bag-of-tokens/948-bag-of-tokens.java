@@ -16,20 +16,20 @@ class Solution {
         int i=1;
         int j=n-1;
         int max=1;
-        while(i<j)
+        while(i<=j)
         {
-    max=Math.max(max,score+helper(pre,sum,i,j));
-            if(score>0)
+            if(sum>=tokens[i])
             {
-                sum+=tokens[j];
-                j--;
-                score-=1;
-            }
-            else{
                 sum-=tokens[i];
                 i++;
                 score+=1;
             }
+            else{
+                sum+=tokens[j];
+                j--;
+                score-=1;
+            }
+            max=Math.max(max,score);
         }
         return max;
     }
