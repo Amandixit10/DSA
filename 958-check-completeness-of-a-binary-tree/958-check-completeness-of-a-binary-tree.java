@@ -15,46 +15,20 @@
  */
 class Solution {
     public boolean isCompleteTree(TreeNode root) {
-        int depth=findDepth(root);
-        ArrayDeque<TreeNode> q=new ArrayDeque<>();
-    q.add(root);
-    int level=1;
-        int count=0;
+        Queue<TreeNode> q=new LinkedList<>();
+        q.add(root);
+        boolean isend=false;
         while(q.size()>0)
         {
-            int size=q.size();
-            boolean isnull=false;
-            while(size-->0)
-            {
-                TreeNode node=q.remove();
-                if(level==depth-1)
-                {
-            if(isnull&&(node.right!=null||node.left!=null))
-                 {return false;}
-            if(node.left==null&&node.right!=null)
+            TreeNode node=q.remove();
+            if(node==null)
+            {isend=true;
+            continue;}
+            if(isend)
             {return false;}
-                    if(node.left==null||node.right==null)
-                    {isnull=true;}
-                }
-                else{
-                if(node.left!=null)
-                {q.add(node.left);}
-                if(node.right!=null)
-                {q.add(node.right);}
-                }
-                count++;
-            }
-            if(count!=((1<<level)-1))
-            {
-                return false;}
-            level+=1;
+            q.add(node.left);
+            q.add(node.right);
         }
         return true;
-    }
-    int findDepth(TreeNode root)
-    {
-        if(root==null)
-        {return 0;}
-        return Math.max(findDepth(root.left),findDepth(root.right))+1;
     }
 }
