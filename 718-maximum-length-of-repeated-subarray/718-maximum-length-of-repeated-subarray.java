@@ -1,31 +1,35 @@
 class Solution {
     public int findLength(int[] nums1, int[] nums2) {
-        ArrayList<Integer> ar[]=new ArrayList[101];
-        for(int i=0;i<101;i++)
-        {
-            ar[i]=new ArrayList<>();
-        }
         int n=nums1.length;
         int m=nums2.length;
+        int dp[][][]=new int[n][m][2];
         int max=0;
-        for(int i=0;i<n;i++)
-            {
-            ar[nums1[i]].add(i);
-        }
-        for(int i=0;i<m;i++)
+        for(int i=n-1;i>=0;i--)
         {
-            for(int k:ar[nums2[i]])
+            for(int j=m-1;j>=0;j--)
             {
-                int x=i;
-                for(int j=k;x<m&&j<n;j++)
+                if(nums1[i]==nums2[j])
                 {
-                 if(nums2[x]!=nums1[j])
-                 {break;}
-                    x++;
+                    dp[i][j][1]=1;
+                    if(i<n-1&&j<m-1)
+                    {
+                        dp[i][j][1]+=dp[i+1][j+1][1];
+                    }
                 }
-                max=Math.max(max,x-i);
+                else{
+                    if(j<m-1)
+                    {
+                    dp[i][j][0]=Math.max(dp[i][j+1][0],dp[i][j+1][1]);
+                    }
+                    if(i<n-1)
+                    {
+                    dp[i][j][0]=Math.max(dp[i][j][0],Math.max(dp[i+1][j][0],dp[i+1][j][1]));
+                    }
+                }
+       max=Math.max(max,Math.max(dp[i][j][0],dp[i][j][1]));
             }
         }
+        
         return max;
     }
 }
