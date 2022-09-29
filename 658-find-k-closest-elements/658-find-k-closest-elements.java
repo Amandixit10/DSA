@@ -1,27 +1,52 @@
 class Solution {
-    class pair{
-        int val;
-        int dif;
-        pair(int val,int dif)
-        {
-            this.val=val;
-            this.dif=dif;
-        }
-    }
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        PriorityQueue<pair> pq=new PriorityQueue<>((a,b)->(a.dif==b.dif)?(a.val-b.val):(a.dif-b.dif));
-        for(int i=0;i<arr.length;i++)
-        {
-        pq.add(new pair(arr[i],Math.abs(arr[i]-x)));
-        }
+        int idx=bs(arr,x);
+        //System.out.println(idx);
         List<Integer> list=new ArrayList<>();
-        int i=0;
-        while(i<k)
+        int i=idx;
+        int j=idx-1;
+        while(list.size()<k&&i<arr.length&&j>=0)
         {
-            list.add(pq.remove().val);
-            i++;
+            if(Math.abs(arr[i]-x)<Math.abs(arr[j]-x))
+            {
+                list.add(arr[i]);
+                i++;
+            }
+            else{
+                list.add(arr[j]);
+                j--;
+            }
         }
-    Collections.sort(list);
+        while(list.size()<k)
+        {
+            if(i<arr.length)
+            {
+                list.add(arr[i]);
+                    i++;
+            }
+            else{
+                list.add(arr[j]);
+            j--;
+            }
+        }
+        Collections.sort(list);
         return list;
+    }
+    int bs(int ar[],int x)
+    {
+        int hi=ar.length;
+        int lo=-1;
+        while(hi-lo>1)
+        {
+            int mid=lo+(hi-lo)/2;
+            if(ar[mid]>x)
+            {
+                hi=mid;
+            }
+            else{
+                lo=mid;
+            }
+        }
+        return hi==ar.length?lo:hi;
     }
 }
