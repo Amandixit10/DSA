@@ -1,28 +1,24 @@
 class Solution {
     int mod=1000000007;
-    Integer dp[][];
     public int numRollsToTarget(int n, int k, int target) {
-        dp=new Integer[n+1][target+1];
-        return helper(n,k,target);
-    }
-    int helper(int n,int k,int sum)
-    {
-        if(sum<=0||n<=0)
+        int dp[][]=new int[n+1][target+1];
+        for(int i=1;i<=Math.min(k,target);i++)
         {
-            if(n==0&&sum==0)
+            dp[n][i]=1;
+        }
+        for(int i=n-1;i>=0;i--)
+        {
+            for(int j=1;j<=target;j++)
             {
-                return 1;
+            for(int l=1;l<=k;l++)
+            {
+                if(j-l>=0)
+                {
+                    dp[i][j]=(dp[i][j]+dp[i+1][j-l])%mod;
+                }
             }
-            return 0;
+            }
         }
-        if(dp[n][sum]!=null)
-        {return dp[n][sum];}
-        int ans=0;
-        for(int i=1;i<=k;i++)
-        {
-          ans=(ans+helper(n-1,k,sum-i))%mod;  
-        }
-        dp[n][sum]=ans;
-        return ans;
+        return dp[1][target];
     }
 }
