@@ -1,26 +1,14 @@
 class Solution {
-    public int minCost(String colors, int[] neededTime) {
-        int i=0;
-        int j=0;
-        int n=neededTime.length;
-        int count=0;
-        char ar[]=colors.toCharArray();
-        int sum=0;
-        int max=Integer.MIN_VALUE;
-        while(j<n)
-        {
-            max=Integer.MIN_VALUE;
-             sum=0;
-            while(j<n&&ar[i]==ar[j])
-            {
-             sum+=neededTime[j];
-                max=Math.max(max,neededTime[j]);
-                j++;
-            }
-            count+=sum-max;
-            //System.out.println(count+" "+max);
-            i=j;
+public int minCost(String s, int[] cost) {
+    int res = cost[0], max_cost = cost[0];
+    for (int i = 1; i < s.length(); ++i) {
+        if (s.charAt(i) != s.charAt(i - 1)) {
+            res -= max_cost;
+            max_cost = 0;
         }
-        return count;
+        res += cost[i];
+        max_cost = Math.max(max_cost, cost[i]);
     }
+    return res - max_cost;
+}
 }
