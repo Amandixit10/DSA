@@ -21,13 +21,10 @@ Integer dp[];
    cnt+=helper(idx+1,s);
       if(idx+1<s.length())
       {
-      if(s.charAt(idx)!='0')
-      {
           int val=Integer.parseInt(s.substring(idx,idx+2));
           if(val>=1&&val<=26)
           {
          cnt+=helper(idx+2,s);
-          }
       }
       }
         dp[idx]=cnt;
