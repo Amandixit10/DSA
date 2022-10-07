@@ -1,66 +1,26 @@
 class MyCalendar {
-    class pair{
-        int start;
-        int end;
-        pair(int start,int end)
-        {
-            this.start=start;
-            this.end=end;
-        }
-    }
-ArrayList<pair> list;
+ArrayList<int[]> list;
     public MyCalendar() {
-      list=new ArrayList<>();  
+        list=new ArrayList<>();
     }
     
     public boolean book(int start, int end) {
-        if(list.size()==0)
+        int f=0;
+      for(int i=0;i<list.size();i++)
+      {
+      int s=list.get(i)[0];
+          int e=list.get(i)[1];
+          if(start>=e||s>=end)
+          {continue;}
+          f=1;
+          break;
+      }
+        if(f==0)
         {
-            list.add(new pair(start,end));
-            return true;
+        list.add(new int[]{start,end});
+        Collections.sort(list,(a,b)->(a[0]==b[0])?(a[1]-b[1]):(a[0]-b[0]));
         }
-        /*for(pair i:list)
-        {
-            System.out.print(i.start+" "+i.end+" --- ");
-        }
-        System.out.println();*/
-        int s=list.get(0).start;
-        int e=list.get(0).end;
-        boolean isAvailable=false;
-        ArrayList<pair> temp=new ArrayList<>();
-        if(end<=s)
-        {
-            temp.add(new pair(start,end));
-            isAvailable=true;
-        }
-        temp.add(new pair(s,e));
-        for(int i=1;i<list.size();i++)
-        {
-         int currS=list.get(i).start;
-            int currE=list.get(i).end;
-            if(currS>=e)
-            {
-                if(start>=e&&end<=currS&&!isAvailable)
-                {
-                    temp.add(new pair(start,end));
-                    isAvailable=true;
-                }
-                s=currS;
-                e=currE;
-            }
-            else{
-                e=Math.max(e,currE);
-            }
-            temp.add(new pair(currS,currE));
-        }
-        if(start>=e)
-        {
-            temp.add(new pair(start,end));
-            isAvailable=true;
-        }
-        list=new ArrayList<>(temp);
-        /**/
-        return isAvailable;
+        return f==0;
     }
 }
 
