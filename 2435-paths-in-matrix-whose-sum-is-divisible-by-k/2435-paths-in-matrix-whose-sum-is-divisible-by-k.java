@@ -9,8 +9,8 @@ class Solution {
     {
         if(i==grid.length-1&&j==grid[0].length-1)
         {
-        sum=(sum+grid[i][j])%k;
-            return sum==0?1:0;}
+        sum+=grid[i][j];
+            return (sum%k)==0?1:0;}
         if(i>=grid.length||j>=grid[0].length)
         {return 0;}
         if(dp[i][j][sum]!=null)
