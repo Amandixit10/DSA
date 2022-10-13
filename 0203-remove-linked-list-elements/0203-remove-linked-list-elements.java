@@ -10,21 +10,9 @@
  */
 class Solution {
     public ListNode removeElements(ListNode head, int val) {
-        ListNode psudo_head=new ListNode(0,head);
-        ListNode prev=psudo_head;
-        ListNode curr=head;
-while(curr!=null)
-{
-    if(curr.val==val)
-    {
-        prev.next=curr.next;
-        curr=prev;
-    }
-    else{
-    prev=curr;
-    curr=curr.next;
-    }
-}
-        return psudo_head.next;
+        if(head==null)
+        {return null;}
+        head.next=removeElements(head.next,val);
+        return head.val==val?head.next:head;
     }
 }
