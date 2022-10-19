@@ -12,31 +12,18 @@ class Solution {
      HashMap<String,Integer> map=new HashMap<>();
         for(String i:words)
         {map.put(i,map.getOrDefault(i,0)+1);}
-        PriorityQueue<pair> pq=new PriorityQueue<>((a,b)->(a.val==b.val)?(b.s.compareTo(a.s)):(a.val-b.val));
+        PriorityQueue<pair> pq=new PriorityQueue<>((a,b)->(a.val==b.val)?(a.s.compareTo(b.s)):(b.val-a.val));
         for(String i:map.keySet())
         {
-            if(pq.size()<k)
-            {
-                pq.add(new pair(i,map.get(i)));
-            }
-            else if(pq.peek().val<map.get(i))
-            {pq.remove();
-            pq.add(new pair(i,map.get(i)));}
-            else if(pq.peek().val==map.get(i))
-            {
-                if(pq.peek().s.compareTo(i)>0)
-                {
-                    pq.remove();
-                    pq.add(new pair(i,map.get(i)));
-                }
-            }
+            pq.add(new pair(i,map.get(i)));
         }
         List<String> list=new ArrayList<>();
-        while(pq.size()>0)
+        int idx=0;
+        while(idx<k)
         {
-            list.add(pq.remove().s);
+       list.add(pq.remove().s);
+            idx++;
         }
-        Collections.reverse(list);
         return list;
     }
 }
