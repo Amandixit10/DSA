@@ -30,13 +30,24 @@ class GFG {
 //Back-end complete function Template for Java
 
 class Solution {
+    static Integer dp[];
     static int minCostClimbingStairs(int[] cost , int N) {
-        int dp[]=new int[N+1];
-        dp[N-1]=cost[N-1];
-        for(int i=N-2;i>=0;i--)
+        dp=new Integer[N];
+        int val1=Math.min(helper(2,cost,N),helper(1,cost,N))+cost[0];
+        int val2=Math.min(helper(3,cost,N),helper(2,cost,N))+cost[1];
+        return Math.min(val1,val2);
+    }
+    static int helper(int idx,int cost[],int n)
+    {
+        if(idx>=n)
+        {return 0;}
+        if(dp[idx]!=null)
         {
-            dp[i]=Math.min(dp[i+1],dp[i+2])+cost[i];
+            return dp[idx];
         }
-        return Math.min(dp[1],dp[0]);
+        int val1=helper(idx+1,cost,n)+cost[idx];
+        int val2=helper(idx+2,cost,n)+cost[idx];
+    dp[idx]=Math.min(val1,val2);
+        return dp[idx];
     }
 }
