@@ -3,28 +3,22 @@ class Solution {
         HashMap<String,ArrayList<String>> map=new HashMap<>();
         for(String i:strs)
         {
-          int ar[]=new int[26];
+         char ar[]=new char[26];
             for(char j:i.toCharArray())
             {
                 ar[j-'a']++;
             }
-            StringBuilder s=new StringBuilder();
-            for(int j:ar)
-            {
-                s.append(j);
-                s.append("-");
-            }
-            String str=s.toString();
+            String s=String.valueOf(ar);
             ArrayList<String> list;
-            if(map.containsKey(str))
+            if(map.containsKey(s))
             {
-                list=map.get(str);
+                list=map.get(s);
             }
             else{
                 list=new ArrayList<>();
             }
             list.add(i);
-            map.put(str,list);
+            map.put(s,list);
         }
        List<List<String>> ans=new ArrayList<>();
         for(String i:map.keySet())
