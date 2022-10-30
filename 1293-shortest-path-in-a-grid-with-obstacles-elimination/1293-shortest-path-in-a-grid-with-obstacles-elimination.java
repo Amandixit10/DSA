@@ -1,38 +1,44 @@
 class Solution {
-    int dir[][]={{1,0},{0,1},{-1,0},{0,-1}};
-    Integer dp[][][][];
+    int[][] dir = new int[][]{{0,1},{0,-1},{1,0},{-1,0}};
     public int shortestPath(int[][] grid, int k) {
-        int n=grid.length;
-        int m=grid[0].length;
-        dp=new Integer[n][m][k+1][4];
-        boolean visited[][]=new boolean[n][m];
-        int min=Integer.MAX_VALUE;
-            min=Math.min(min,dfs(n,m,0,0,grid,visited,k,0));
-        return min==Integer.MAX_VALUE?-1:min;
-    }
-    int dfs(int n,int m,int row,int col,int grid[][],boolean visited[][],int k,int dirtn)
-    {
-        if(row<0||col<0||row>=n||col>=m||visited[row][col]||(grid[row][col]==1&&k<=0))
+        int n = grid.length;
+        int m = grid[0].length;
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        boolean[][][] visited = new boolean[n][m][k+1];
+        q.add(new int[]{0,0,k});
+        int level=0;
+        while(q.size()>0){
+            int size=q.size();
+            while(size-->0)
+            {
+                int[] ar = q.remove();
+                int r=ar[0];
+                int c=ar[1];
+                int ck=ar[2];
+               if(r==n-1&&c==m-1)
+            {
+                   return level;}
+        for(int i=0;i<4;i++)
         {
-            return Integer.MAX_VALUE;}
-        if(row==n-1&&col==m-1)
-        {return 0;}
-        if(grid[row][col]==1)
-        {k-=1;}
-        if(dp[row][col][k][dirtn]!=null)
-        {return dp[row][col][k][dirtn];}
-      int min=Integer.MAX_VALUE;
-        visited[row][col]=true;
-        int idx=0;
-      for(int i=0;i<4;i++)
-      {
-      int val=dfs(n,m,row+dir[i][0],col+dir[i][1],grid,visited,k,idx);  
-              min=Math.min(min,val);
-          idx++;
-      }
-        visited[row][col]=false;
-        min=min==Integer.MAX_VALUE?min:min+1;
-        dp[row][col][k][dirtn]=min;
-        return min;
+            int cr=r+dir[i][0];
+            int cc=c+dir[i][1];
+            int cck=ck;
+            if(cr>=0&&cc>=0&&cr<n&&cc<m)
+            {
+                if(grid[cr][cc]==1)
+                {
+                    cck-=1;
+                }
+                if(cck>=0&&!visited[cr][cc][cck])
+                {
+                visited[cr][cc][cck]=true;
+        q.add(new int[]{cr,cc,cck});
+                }
+        }
+        }
+            }
+            level+=1;
+        }
+        return -1;
     }
 }
