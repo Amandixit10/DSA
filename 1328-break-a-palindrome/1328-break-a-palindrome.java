@@ -1,17 +1,17 @@
 class Solution {
     public String breakPalindrome(String palindrome) {
-        TreeSet<String> set=new TreeSet<>();
         int n=palindrome.length();
         if(n==1)
         {return "";}
-        for(int i=0;i<n;i++)
+        int i=0;
+        while(i<n/2)
         {
-            if(i==(n/2)&&n%2!=0)
-            {continue;}
-            String str=palindrome.charAt(i)=='a'?"b":"a";
-    String s=palindrome.substring(0,i)+str+palindrome.substring(i+1,n);
-            set.add(s);
+            if(palindrome.charAt(i)!='a')
+            {
+                return palindrome.substring(0,i)+"a"+palindrome.substring(i+1);
+            }
+            i++;
         }
-        return set.first();
+        return n<2?"":palindrome.substring(0,n-1)+"b";
     }
 }
