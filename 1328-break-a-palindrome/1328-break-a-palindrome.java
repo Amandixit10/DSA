@@ -1,17 +1,23 @@
 class Solution {
     public String breakPalindrome(String palindrome) {
-        int n=palindrome.length();
-        if(n==1)
-        {return "";}
-        int i=0;
-        while(i<n/2)
-        {
-            if(palindrome.charAt(i)!='a')
-            {
-                return palindrome.substring(0,i)+"a"+palindrome.substring(i+1);
+        
+        char[] ch = palindrome.toCharArray(); 
+        int n = ch.length/2;
+        
+        for (int i = 0; i < n; i++) {
+            
+            if (ch[i] != 'a') {
+                ch[i] = 'a';
+                return String.valueOf(ch);
             }
-            i++;
         }
-        return n<2?"":palindrome.substring(0,n-1)+"b";
+        
+        if (palindrome.length() > 1) {
+            ch[ch.length - 1] = 'b';
+            return String.valueOf(ch);
+        }
+        
+        return "";
+        
     }
 }
