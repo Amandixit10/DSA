@@ -1,22 +1,19 @@
 class Solution {
     public boolean increasingTriplet(int[] nums) {
-        int n=nums.length;
-        TreeMap<Long,Integer> map=new TreeMap<>();
-       map.put((long)nums[n-1],1);
-        for(int i=n-2;i>=0;i--)
+        int num1=Integer.MAX_VALUE;
+        int num2=Integer.MAX_VALUE;
+        for(int i:nums)
         {
-            long b=nums[i];
-            long a=b+1;
-           if(map.ceilingKey(a)!=null)
-           {
-               if(map.get(map.ceilingKey(a))>=2)
-               {
-               return true;
-               }
-               map.put(b,map.get(map.ceilingKey(a))+1);
-           }
+            if(i<=num1)
+            {
+                num1=i;
+            }
+            else if(i<=num2)
+            {
+                num2=i;
+            }
             else{
-                map.put(b,1);
+                return true;
             }
         }
         return false;
