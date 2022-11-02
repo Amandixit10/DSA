@@ -1,61 +1,38 @@
 class Solution {
-    Integer dp[][];
     public int minMutation(String start, String end, String[] bank) {
-       int min=Integer.MAX_VALUE;
-        int n=bank.length;
-        dp=new Integer[n+1][n+1];
-        boolean fill[]=new boolean[n];
-        for(int i=0;i<n;i++)
+        HashSet<String> set=new HashSet<>();
+        for(String i:bank)
         {
-   if(valid(start,bank[i]))
-   {
-       fill[i]=true;
-       int val=helper(bank[i],end,fill,bank,0,i+1);
-       if(val!=Integer.MAX_VALUE)
-       {
-           min=Math.min(min,val+1);
-       }
-       fill[i]=false;
-   }
+            set.add(i);
         }
-        return min==Integer.MAX_VALUE?-1:min;
-    }
-    int helper(String start,String end,boolean fill[],String bank[],int prev,int curr)
-    {
-        int n=fill.length;
-        if(start.equals(end))
-        {return 0;}
-        if(dp[prev][curr]!=null)
-        {return dp[prev][curr];}
-        int min=Integer.MAX_VALUE;
-         for(int i=0;i<n;i++)
+        HashSet<String> seen=new HashSet<>();
+        ArrayDeque<String> q=new ArrayDeque<>();
+        q.add(start);
+        seen.add(start);
+        int level=0;
+        while(q.size()>0)
         {
-   if(!fill[i]&&valid(start,bank[i]))
-   {
-       fill[i]=true;
-       int val=helper(bank[i],end,fill,bank,curr,i);
-       if(val!=Integer.MAX_VALUE)
-       {
-           min=Math.min(min,val+1);
-       }
-       fill[i]=false;
-   }
+            int size=q.size();
+            while(size-->0)
+            {
+            String s=q.remove();
+            if(s.equals(end))
+            {return level;}
+                for(int i=0;i<s.length();i++)
+                {
+                    for(char ch:new char[]{'A','C','G','T'})
+                    {
+                        String t=s.substring(0,i)+(ch+"")+s.substring(i+1);
+                        if(!seen.contains(t)&&set.contains(t))
+                        {
+                            q.add(t);
+                            seen.add(t);
+                        }
+                    }
+                }
+            }
+            level++;
         }
-        dp[prev][curr]=min;
-        return min;
+        return -1;
     }
-boolean valid(String s,String t)
-{
-   int cnt=0;
-    int i=0;
-    int j=0;
-    while(i<s.length())
-    {
-        if(s.charAt(i)!=t.charAt(j))
-        {cnt++;}
-        i++;
-        j++;
-    }
-    return cnt<2;
-}
 }
