@@ -1,35 +1,47 @@
 class Solution {
     public int longestPalindrome(String[] words) {
-        HashMap<String,Integer> map=new HashMap<>();
+        int ar[][]=new int[26][26];
         for(String i:words)
         {
-            map.put(i,map.getOrDefault(i,0)+1);
+            int a=i.charAt(0)-'a';
+            int b=i.charAt(1)-'a';
+            ar[a][b]++;
         }
+        boolean mid=false;
         int cnt=0;
-        int odd=0;
-        HashSet<String> set=new HashSet<>();
-        for(String i:words)
+        for(int i=0;i<26;i++)
         {
-            if(set.contains(i))
-            {continue;}
-            String s=new StringBuilder(i).reverse().toString();
-            if(s.equals(i))
+            for(int j=0;j<26;j++)
             {
-                int val=map.get(i);
-                if(val%2!=0)
+                if(j<i)
+                {continue;}
+                if(i==j)
                 {
-                    odd=1;}
-                val-=val%2;
-            cnt+=val;
+                    if(ar[i][j]>0)
+                    {
+                        if(ar[i][j]%2!=0)
+                        {
+                           if(!mid)
+                           {
+                            cnt+=ar[i][j]*2;
+                           mid=true;
+                           }
+                            else{
+                                cnt+=(ar[i][j]-1)*2;
+                            }
+                        }
+                        else{
+                            cnt+=ar[i][j]*2;
+                        }
+                    }
+                }
+                else{
+                   int val=Math.min(ar[i][j],ar[j][i])*2;
+                    val*=2;
+                    cnt+=val;
+                }
             }
-            else if(map.containsKey(s))
-            {
-                cnt+=Math.min(map.get(i),map.get(s))*2;
-            }
-            set.add(i);
-            set.add(s);
         }
-        cnt+=odd;
-        return cnt*2;
+        return cnt;
     }
 }
