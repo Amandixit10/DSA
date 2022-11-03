@@ -34,29 +34,31 @@ public class Main {
 class Solution {
     int removals(int[] arr, int n, int k) {
         Arrays.sort(arr);
+        int dp[][]=new int[n][n];
         int min=Integer.MAX_VALUE;
         for(int i=0;i<n;i++)
         {
-            min=Math.min(min,bs(arr[i]-k,arr)+n-i-1);
+            for(int j=0;j<n;j++)
+            {
+                if(j>=i)
+                {
+                    if(i==j)
+                {
+                    dp[i][j]=n-1;
+                }
+                else{
+                    if(arr[j]-arr[i]<=k)
+                    {
+                        dp[i][j]=i+n-j-1;
+                    }
+                    else{
+                        dp[i][j]=Integer.MAX_VALUE;
+                    }
+                }
+                min=Math.min(min,dp[i][j]);
+            }
+        }
         }
         return min;
-    }
-    int bs(int val,int ar[])
-    {
-        int n=ar.length;
-        int lo=-1;
-        int hi=n;
-        while(hi-lo>1)
-        {
-            int mid=lo+(hi-lo)/2;
-            if(ar[mid]<val)
-            {
-                lo=mid;
-            }
-            else{
-                hi=mid;
-            }
-        }
-        return hi;
     }
 }
