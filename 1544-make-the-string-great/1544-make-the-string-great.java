@@ -1,12 +1,27 @@
 class Solution {
     public String makeGood(String s) {
-        if(s.length()==1)
-        {return s;}
-        String t=makeGood(s.substring(1));
-        if(t.length()>0&&Math.abs(s.charAt(0)-t.charAt(0))==32)
+        Stack<Character> st=new Stack<>();
+        for(char ch:s.toCharArray())
         {
-            return t.substring(1);
+            if(st.size()==0)
+            {
+                st.push(ch);
+            }
+            else{
+                if(Math.abs(st.peek()-ch)==32)
+                {
+                    st.pop();
+                }
+                else{
+                    st.push(ch);
+                }
+            }
         }
-        return (s.charAt(0)+"")+t;
+        StringBuilder str=new StringBuilder();
+        while(st.size()>0)
+        {
+            str.append(st.pop());
+        }
+        return str.reverse().toString();
     }
 }
