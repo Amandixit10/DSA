@@ -1,26 +1,14 @@
 class StockSpanner {
-    class pair{
-        int val;
-        int days;
-        pair(int val,int days)
-        {
-            this.val=val;
-            this.days=days;
-        }
-    }
-Stack<pair> st;
-    public StockSpanner() {
-      st=new Stack<>();  
-    }
+    Stack<int[]> stack = new Stack<>();
     
     public int next(int price) {
-        int cnt=1;
-        while(st.size()>0&&st.peek().val<=price)
-        {
-            cnt+=st.pop().days;
+        int ans = 1;
+        while (!stack.isEmpty() && stack.peek()[0] <= price) {
+            ans += stack.pop()[1];
         }
-        st.push(new pair(price,cnt));
-        return st.peek().days;
+        
+        stack.push(new int[] {price, ans});
+        return ans;
     }
 }
 
