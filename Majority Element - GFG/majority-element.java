@@ -33,27 +33,33 @@ class Solution
 {
     static int majorityElement(int a[], int size)
     {
-        Arrays.sort(a);
-        int idx=-1;
-        int cnt=1;
-        for(int i=1;i<size;i++)
+        int count=0;
+        int ele=-1;
+        for(int i=0;i<size;i++)
         {
-         if(a[i]!=a[i-1])
-         {
-          if(cnt>size/2)
-          {
-              idx=a[i-1];
-          }
-          cnt=1;
-         }
-         else{
-             cnt++;
-         }
+            if(count==0)
+            {
+                count=1;
+                ele=a[i];
+            }
+            else{
+                if(a[i]==ele)
+                {
+                    count++;
+                }
+                else{
+                    count--;
+                }
+            }
         }
-        if(cnt>size/2)
-          {
-              idx=a[size-1];
-          }
-        return idx;
+         count=0;
+        for(int i:a)
+        {
+            if(i==ele)
+            {
+                count++;
+            }
+        }
+        return count>size/2?ele:-1;
     }
 }
