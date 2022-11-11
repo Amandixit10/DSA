@@ -24,7 +24,7 @@ class Solution {
     static HashSet<Integer> set=new HashSet<>();
     static String isSumOfTwo(int N){
        boolean ar[]=new boolean[N+1];
-        for(int i=2;i<=N;i++)
+        for(int i=2;i*i<=N;i++)
         {
             if(!ar[i])
             {
@@ -33,13 +33,24 @@ class Solution {
                 {
                     return "Yes";
                 }
-           for(int j=i+i;j<=N;j+=i)
+           for(int j=i*i;j<=N;j+=i)
            {
                ar[j]=true;
            }
             }
         }
-        
+        for(int i=2;i<=N;i++)
+        {
+            if(!ar[i])
+            {
+                if(set.contains(N-i))
+                {
+               return "Yes"; 
+                }
+                set.add(i);
+            }
+            
+        }
         return "No";
     }
 }
