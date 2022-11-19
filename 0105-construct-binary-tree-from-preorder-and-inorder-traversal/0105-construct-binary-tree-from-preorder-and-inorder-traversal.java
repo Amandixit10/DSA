@@ -19,7 +19,8 @@ class Solution {
     }
     TreeNode build(int pre[],int in[],int prel,int prer,int inl,int inr)
     {
-        if(inl>inr)
+        //System.out.println(prel+" "+prer);
+        if(prel>prer)
         {
             return null;
         }
@@ -30,7 +31,7 @@ class Solution {
             i++;
         }
         int add=i-inl+1;
-        root.left=build(pre,in,prel+1,i,inl,i-1);
+        root.left=build(pre,in,prel+1,prel+add-1,inl,i-1);
         root.right=build(pre,in,prel+add,prer,i+1,inr);
         return root;
     }
