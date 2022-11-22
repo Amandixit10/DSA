@@ -26,38 +26,30 @@ class GFG
 
 class Solution{
     static String longestPalin(String S){
-        int n=S.length();
-        int dp[][]=new int[n][n];
-        int mi=0;
-        int mj=0;
-        for(int g=0;g<n;g++)
+        int start=0;
+        int end=0;
+        for(int i=0;i<S.length();i++)
         {
-            for(int j=g,i=0;j<n;j++,i++)
+            int x=expand(S,i,i);
+            int y=expand(S,i,i+1);
+            int len=Math.max(x,y);
+            if(len>(end-start+1))
             {
-                if(i==j)
-                {
-                 dp[i][j]=1;   
-                }
-                else if((j-i)==1)
-                {
-                    if(S.charAt(i)==S.charAt(j))
-                    {
-                        dp[i][j]=2;
-                    }
-                }
-                else{
-                    if(S.charAt(i)==S.charAt(j))
-                    {
-                        dp[i][j]=dp[i+1][j-1]==0?0:dp[i+1][j-1]+2;
-                    }
-                }
-                if(dp[i][j]>0&&mj-mi<j-i)
-                {
-                    mj=j;
-                    mi=i;
-                }
+                start=i-(len-1)/2;
+                end=i+(len/2);
             }
         }
-        return S.substring(mi,mj+1);
+        return S.substring(start,end+1);
+    }
+    static int expand(String s,int l,int r)
+    {
+        int n=s.length();
+        while(l>=0&&r<n&&s.charAt(l)==s.charAt(r))
+        {
+            l--;
+            r++;
+        }
+        //System.out.println(l+" "+r);
+        return r-l-1;
     }
 }
