@@ -32,40 +32,43 @@ class DriverClass {
 /*Complete the function below*/
 
 class Solution {
-    // Function to detect cycle in an undirected graph.
-    public Boolean dp[];
+    Boolean dp[];
+    // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
         int n=adj.size();
-        dp=new Boolean[n];
-       boolean visited[]=new boolean[n];
-       for(int i=0;i<n;i++)
-       {
-           if(dp[i]!=null)
-           {
-               continue;
-           }
-           if(!visited[i]&&dfs(visited,adj,i))
-           {return true;}
-       }
-       return false;
-    }
-    boolean dfs(boolean visited[],ArrayList<ArrayList<Integer>> adj,int idx)
-    {
-        if(visited[idx])
-        {return true;
+         boolean visited[]=new boolean[n];
+         dp=new Boolean[n];
+         int state[]=new int[n];
+        for(int i=0;i<visited.length;i++)
+        {
+             if(dfs(adj,visited,i,state))
+             {
+                 return true;
+             }
         }
-        if(dp[idx]!=null)
-        {return dp[idx];}
+        return false;
+    }
+    public boolean dfs(ArrayList<ArrayList<Integer>> adj,boolean visited[],int idx,int state[])
+    {
+if(visited[idx])
+{
+    return state[idx]==1;
+}
+if(dp[idx]!=null)
+{
+    return dp[idx];
+}
         visited[idx]=true;
+        state[idx]=1;
         for(int i:adj.get(idx))
         {
-            if(dfs(visited,adj,i))
+            if(dfs(adj,visited,i,state))
             {
-                dp[idx]=true;
-                return true;}
+                return dp[idx]=true;
+            }
         }
-        dp[idx]=false;
         visited[idx]=false;
-        return false;
+        state[idx]=2;
+        return dp[idx]=false;
     }
 }
