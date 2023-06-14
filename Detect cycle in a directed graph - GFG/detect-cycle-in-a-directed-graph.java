@@ -32,12 +32,12 @@ class DriverClass {
 /*Complete the function below*/
 
 class Solution {
-    Boolean dp[];
+    //Boolean dp[];
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
         int n=adj.size();
          boolean visited[]=new boolean[n];
-         dp=new Boolean[n];
+        
          int state[]=new int[n];
         for(int i=0;i<visited.length;i++)
         {
@@ -57,21 +57,17 @@ if(visited[idx])
 {
     return state[idx]==1;
 }
-if(dp[idx]!=null)
-{
-    return dp[idx];
-}
+
         visited[idx]=true;
         state[idx]=1;
         for(int i:adj.get(idx))
         {
             if(dfs(adj,visited,i,state))
             {
-                return dp[idx]=true;
+                return true;
             }
         }
-       // visited[idx]=false;
         state[idx]=2;
-        return dp[idx]=false;
+        return false;
     }
 }
