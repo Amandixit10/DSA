@@ -41,10 +41,13 @@ class Solution {
          int state[]=new int[n];
         for(int i=0;i<visited.length;i++)
         {
+            if(!visited[i])
+            {
              if(dfs(adj,visited,i,state))
              {
                  return true;
              }
+            }
         }
         return false;
     }
@@ -67,7 +70,7 @@ if(dp[idx]!=null)
                 return dp[idx]=true;
             }
         }
-        visited[idx]=false;
+       // visited[idx]=false;
         state[idx]=2;
         return dp[idx]=false;
     }
